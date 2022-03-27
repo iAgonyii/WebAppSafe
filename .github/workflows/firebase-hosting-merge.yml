@@ -24,3 +24,4 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WEBAPPSAFE }}'
           channelId: live
           projectId: webappsafe
+          entryPoint: src/Web
