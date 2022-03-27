@@ -10,7 +10,7 @@ name: Deploy preview to Firebase Hosting on merge to dev
       - 'src/Web/**'
 
 jobs:
-  build_and_deploy:
+  build_and_preview:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -22,5 +22,6 @@ jobs:
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WEBAPPSAFE }}'
+          channelId: dev
           projectId: webappsafe
           entryPoint: src/Web
