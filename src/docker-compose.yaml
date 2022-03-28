@@ -1,0 +1,14 @@
+﻿version: "3.9"
+services: 
+  scan_service: 
+    build: Services/Scan
+    hostname: scan-service
+    ports:
+      - "7161:80"
+      - "7262:443"
+  user_service:
+    build: Services/User
+    hostname: user-service
+    ports:
+      - "7171:80"
+      - "7272:443"
