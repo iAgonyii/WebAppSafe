@@ -1,7 +1,15 @@
 namespace Scan
 {
-    public class WeatherForecast
+    public class Scan
     {
-        public DateTime Date { get; set; }
+        public long id { get; set; }
+        public DateTime date { get; set; }
+        public string? data { get; set; }
+
+        public Scan(long id, DateTime date, string? data) {
+            this.id = id;
+            this.date = date;
+            this.data = data;
+        }
     }
 }
