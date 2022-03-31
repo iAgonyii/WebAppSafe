@@ -1,0 +1,16 @@
+﻿apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: scan-state
+  namespace: default
+spec:
+  type: state.monogodb
+  version: v1
+  metadata:
+    - name: host
+      value: mongo-mongodb.default.svc.cluster.local:27017
+    - name: password
+      secretKeyRef:
+        name: mongo-mongodb
+        key: mongodb-root-password
+...

@@ -1,0 +1,71 @@
+﻿---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scanservice-deployment # Name of the deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scanservice-pod # The deployment will target pods with this name
+  template:
+    metadata:
+      labels:
+        app: scanservice-pod # Name of the pods
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "scanservice"
+        dapr.io/app-port: "80"
+    spec:
+      containers:
+        - name: scanservice-container # Name we want to give the container
+          image: ghcr.io/iagonyii/scanservice:latest # Remote Docker image
+          ports:
+            - containerPort: 80 # Expose the port that the service/app runs on
+          imagePullPolicy: Always
+      imagePullSecrets: # Token secret for pulling private Docker image from GitHub
+        - name: dockerconfigjson-github-com
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userservice-deployment # Name of the deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userservice-pod # The deployment will target pods with this name
+  template:
+    metadata:
+      labels:
+        app: userservice-pod # Name of the pods
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "userservice"
+        dapr.io/app-port: "80"
+    spec:
+      containers:
+        - name: userservice-container # Name we want to give the container
+          image: ghcr.io/iagonyii/userservice:latest # Remote Docker image
+          ports:
+            - containerPort: 80 # Expose the port that the service/app runs on
+          imagePullPolicy: Always
+      imagePullSecrets: # Token secret for pulling private Docker image from GitHub
+        - name: dockerconfigjson-github-com
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: scanservice-service # Name of the service
+spec:
+  selector:
+    app: scanservice-pod # Send traffic to pods with this label
+  ports:
+    - name: http-scan
+      port: 7161 # Port that we want to reach the service running on the pods on
+      targetPort: 80 # Port that the running service exposes within the container
+  type: LoadBalancer
