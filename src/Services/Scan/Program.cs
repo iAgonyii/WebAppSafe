@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Scan.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -10,6 +13,14 @@ builder.Services.AddCors(options =>
         });
 });
 builder.Services.AddControllers();
+
+string endpoint = "https://webappsafe.documents.azure.com:443/";
+string key = Environment.GetEnvironmentVariable("COSMOS_DB_MASTER_KEY");
+Console.WriteLine(key);
+
+builder.Services.AddDbContext<ScanContext>(options =>
+    options.UseCosmos(endpoint, key, "scan-state"));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

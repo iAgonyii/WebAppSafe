@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Scan.Data;
 
 namespace Scan.Controllers
 {
@@ -7,30 +8,35 @@ namespace Scan.Controllers
     public class ScanController : ControllerBase
     {
         private readonly ILogger<ScanController> _logger;
+        private ScanContext _context;
 
-        public ScanController(ILogger<ScanController> logger)
+        public ScanController(ILogger<ScanController> logger, ScanContext context)
         {
             _logger = logger;
+            _context = context;
+            _context.Database.EnsureCreated();
         }
 
         List<Scan> MockScans = new List<Scan>()
         {
-            new Scan(1, DateTime.Now, "Scan number 1"),
-            new Scan(2, DateTime.Now, "Scan number 2"),
-            new Scan(3, DateTime.Now, "Scan number 3"),
+            new Scan("1", DateTime.Now, "Scan number 1"),
+            new Scan("2", DateTime.Now, "Scan number 2"),
+            new Scan("3", DateTime.Now, "Scan number 3"),
         };
 
         [HttpPost]
         public async Task<ActionResult<Scan>> PostScan(Scan scan)
         {
-            MockScans.Add(scan);
+            _context.scans.Add(scan);
+            await _context.SaveChangesAsync();
+
             return CreatedAtAction(nameof(GetScan), new { id = scan.id }, scan);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Scan>> GetScan(long id)
+        public async Task<ActionResult<Scan>> GetScan(string id)
         {
-            var scan = MockScans.Find(e => e.id == id);
+            var scan = await _context.scans.FindAsync(id);
 
             if (scan == null)
             {
@@ -43,7 +49,7 @@ namespace Scan.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Scan>>> GetAllScans()
         {
-            return MockScans;
+            return _context.scans.ToList();
         }
     }
 }
