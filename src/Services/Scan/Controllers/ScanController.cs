@@ -5,7 +5,7 @@ using Scan.Data;
 namespace Scan.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/s/[controller]")]
     public class ScanController : ControllerBase
     {
         private readonly ILogger<ScanController> _logger;
