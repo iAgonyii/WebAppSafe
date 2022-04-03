@@ -8,4 +8,8 @@ spec:
   version: v1
   metadata:
     - name: host
-      value: "amqp://user:xK0mEHCQ9W@rabbitmq.default.svc.cluster.local:5672"
+      secretKeyRef:
+        name: pubsub-connection
+        key: pubsub-connection
+auth:
+  secretStore: kubernetes 
