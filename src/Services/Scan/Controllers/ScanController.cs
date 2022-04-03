@@ -1,3 +1,4 @@
+using Dapr.Client;
 using Microsoft.AspNetCore.Mvc;
 using Scan.Data;
 
@@ -8,13 +9,15 @@ namespace Scan.Controllers
     public class ScanController : ControllerBase
     {
         private readonly ILogger<ScanController> _logger;
-        private ScanContext _context;
+        private readonly ScanContext _context;
+        private DaprClient _dapr;
 
         public ScanController(ILogger<ScanController> logger, ScanContext context)
         {
             _logger = logger;
             _context = context;
-            _context.Database.EnsureCreated();
+            _context.Database.EnsureCreated(); 
+            _dapr = new DaprClientBuilder().Build();
         }
 
         List<Scan> MockScans = new List<Scan>()
@@ -30,7 +33,10 @@ namespace Scan.Controllers
             _context.scans.Add(scan);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetScan), new { id = scan.id }, scan);
+            await _dapr.PublishEventAsync("pubsub", "newScan", scan);
+            Console.WriteLine($"Published scan: {scan.id}");
+
+            return Ok();
         }
 
         [HttpGet("{id}")]

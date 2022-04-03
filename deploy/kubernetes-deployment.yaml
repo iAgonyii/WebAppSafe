@@ -23,6 +23,12 @@ spec:
           ports:
             - containerPort: 80 # Expose the port that the service/app runs on
           imagePullPolicy: Always
+          env:
+            - name: COSMOS_DB_MASTER_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cosmos-db-master-key # Kubernetes secret
+                  key: cosmos-db-master-key
       imagePullSecrets: # Token secret for pulling private Docker image from GitHub
         - name: dockerconfigjson-github-com
 

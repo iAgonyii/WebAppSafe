@@ -16,7 +16,6 @@ builder.Services.AddControllers();
 
 string endpoint = "https://webappsafe.documents.azure.com:443/";
 string key = Environment.GetEnvironmentVariable("COSMOS_DB_MASTER_KEY");
-Console.WriteLine(key);
 
 builder.Services.AddDbContext<ScanContext>(options =>
     options.UseCosmos(endpoint, key, "scan-state"));
