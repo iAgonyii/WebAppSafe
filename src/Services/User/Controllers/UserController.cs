@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace User.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/u/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;
