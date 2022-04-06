@@ -95,13 +95,15 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
+  annotations:
+    service.beta.kubernetes.io/azure-dns-label-name: webappsafegw
   name: gateway-service # Name of the service
 spec:
   selector:
     app: gateway-pod # Send traffic to pods with this label
   ports:
     - name: http-scan
-      port: 7000 # Port that we want to reach the service running on the pods on
+      port: 80 # Port that we want to reach the service running on the pods on
       targetPort: 80 # Port that the running service exposes within the container
   type: LoadBalancer
 
