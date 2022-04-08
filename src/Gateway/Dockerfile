@@ -16,4 +16,4 @@ WORKDIR /app
 COPY --from=build-env /app/out .
 EXPOSE 80
 EXPOSE 443
-ENTRYPOINT ["dotnet", "User.dll"]
+ENTRYPOINT ["dotnet", "Gateway.dll"]
