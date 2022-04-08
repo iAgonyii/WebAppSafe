@@ -1,12 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Scan
+namespace User
 {
     public class Scan
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string id { get; set; }
         public DateTime date { get; set; }
         public string? data { get; set; }
