@@ -35,4 +35,4 @@ jobs:
       - name: ZAP Scan
         uses: zaproxy/action-baseline@v0.6.1
         with:
-          target: ${{ needs.build_and_preview.outputs.urls }}
+          target: ${{ needs.build_and_preview.outputs.details_url }}
