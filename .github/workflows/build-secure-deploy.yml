@@ -21,10 +21,6 @@ jobs:
 
     runs-on: ubuntu-latest
     name: Build, scan, and push images
-    
-    defaults:
-      run:
-        working-directory: src
 
     steps:
       - name: Checkout
