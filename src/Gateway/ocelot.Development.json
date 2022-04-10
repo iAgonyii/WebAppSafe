@@ -2,18 +2,30 @@
   "Routes": [
     {
       "DownstreamPathTemplate": "/api/s/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7161
+          "Host": "scan-service",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/s/{everything}",
       "UpstreamHttpMethod": []
+    },
+    {
+      "DownstreamPathTemplate": "/api/u/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "user-service",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/u/{everything}",
+      "UpstreamHttpMethod": []
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost"
+    "BaseUrl": "http://localhost"
   }
 }

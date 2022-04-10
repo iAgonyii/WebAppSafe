@@ -1,14 +1,97 @@
-﻿version: "3.9"
+﻿# Run using docker compose rm -f and then docker compose up --build
+
+version: "3.9"
 services: 
+  gateway:
+    build: Gateway/
+    ports:
+      - "7000:80"
+      - "7001:443"
+    depends_on: 
+      - scan_service
+      - user_service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - local-dev
+  
   scan_service: 
     build: Services/Scan
     hostname: scan-service
     ports:
       - "7161:80"
       - "7262:443"
+      - "50001:50001"
+    depends_on: 
+      - redis
+      - placement
+    networks:
+      - local-dev
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - COSMOS_DB_MASTER_KEY=${COSMOS_DB_MASTER_KEY}
+
+  scan_service_dapr:
+    image: "daprio/daprd:edge"
+    command: [
+               "./daprd",
+               "-app-id", "scanservice",
+               "-app-port", "80",
+               "-placement-host-address", "placement:50006",
+               "-components-path", "/components"
+    ]
+    volumes:
+      - "../dev/:/components"
+    depends_on: 
+      - scan_service
+    network_mode: "service:scan_service"
+  
   user_service:
     build: Services/User
     hostname: user-service
     ports:
       - "7171:80"
       - "7272:443"
+      - "50002:50002"
+    depends_on: 
+      - redis
+      - placement
+    networks:
+      - local-dev
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - COSMOS_DB_MASTER_KEY=${COSMOS_DB_MASTER_KEY}
+    
+  user_service_dapr:
+    image: "daprio/daprd:edge"
+    command: [
+      "./daprd",
+      "-app-id", "userservice",
+      "-app-port", "80",
+      "-placement-host-address", "placement:50006",
+      "-components-path", "/components"
+    ]
+    volumes:
+      - "../dev/:/components"
+    depends_on:
+      - user_service
+    network_mode: "service:user_service"
+    
+  
+  placement:
+    image: "daprio/dapr"
+    command: ["./placement", "-port", "50006"]
+    ports:
+      - "50006:50006"
+    networks:
+      - local-dev
+  
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+    networks:
+      - local-dev
+
+networks:
+  local-dev:
