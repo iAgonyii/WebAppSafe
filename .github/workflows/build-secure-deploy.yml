@@ -50,8 +50,14 @@ jobs:
         
       - name: Scan gateway
         uses: anchore/scan-action@v3
+        id: scan-gateway
         with:
           image: ${{ env.GATEWAY_TAG_PUSH }}
+          acs-report-enable: true
+          severity-cutoff: "high"
+      
+      - name: Inspect scan-gateway SARIF report
+        run: cat ${{ steps.scan-gateway.outputs.sarif }}
           
       - name: Push gateway
         uses: docker/build-push-action@v2
@@ -70,8 +76,14 @@ jobs:
           
       - name: Scan scan
         uses: anchore/scan-action@v3
+        id: scan-scan
         with:
           image: ${{ env.SCAN_TAG_PUSH }}
+          acs-report-enable: true
+          severity-cutoff: "high"
+          
+      - name: Inspect scan-scan SARIF report
+        run: cat ${{ steps.scan-scan.outputs.sarif }}
           
       - name: Push scan
         uses: docker/build-push-action@v2
@@ -90,8 +102,14 @@ jobs:
           
       - name: Scan user
         uses: anchore/scan-action@v3
+        id: scan-user
         with:
           image: ${{ env.USER_TAG_PUSH }}
+          acs-report-enable: true
+          severity-cutoff: "high"
+          
+      - name: Inspect scan-user SARIF report
+        run: cat ${{ steps.scan-user.outputs.sarif }}
           
       - name: Push user
         uses: docker/build-push-action@v2
