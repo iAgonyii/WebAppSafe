@@ -1,0 +1,33 @@
+name: Build & test services
+
+on:
+  push:
+    branches: [ dev ]
+    paths: 
+      - 'src/Services/**'
+  pull_request:
+    branches: [ master ]
+    paths: 
+      - 'src/Services/**'
+
+env:
+  COSMOS_DB_MASTER_KEY: ${{ secrets.COSMOS_DB_MASTER_KEY }}
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    name: Build and test services
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore src/Services
+    - name: Build
+      run: dotnet build src/Services --no-restore
+    - name: Test
+      run: dotnet test src/Services --no-build --verbosity normal

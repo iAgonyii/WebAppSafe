@@ -20,6 +20,8 @@ jobs:
   build_push_images:
 
     runs-on: ubuntu-latest
+    name: Build, scan, and push images
+    
     defaults:
       run:
         working-directory: src
@@ -38,21 +40,60 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           
-      - name: Build and push gateway
+      - name: Build gateway
+        uses: docker/build-push-action@v2
+        with:
+          context: src/Gateway
+          push: false
+          load: true
+          tags: ${{ env.GATEWAY_TAG_PUSH }}
+        
+      - name: Scan gateway
+        uses: anchore/scan-action@v3
+        with:
+          image: ${{ env.GATEWAY_TAG_PUSH }}
+          
+      - name: Push gateway
         uses: docker/build-push-action@v2
         with:
           context: src/Gateway
           push: true
           tags: ${{ env.GATEWAY_TAG_PUSH }}
           
-      - name: Build and push scan
+      - name: Build scan
+        uses: docker/build-push-action@v2
+        with:
+          context: src/Services/Scan
+          push: false
+          load: true
+          tags: ${{ env.SCAN_TAG_PUSH }}
+          
+      - name: Scan scan
+        uses: anchore/scan-action@v3
+        with:
+          image: ${{ env.SCAN_TAG_PUSH }}
+          
+      - name: Push scan
         uses: docker/build-push-action@v2
         with:
           context: src/Services/Scan
           push: true
           tags: ${{ env.SCAN_TAG_PUSH }}
           
-      - name: Build and push user
+      - name: Build user
+        uses: docker/build-push-action@v2
+        with:
+          context: src/Services/User
+          push: false
+          load: true
+          tags: ${{ env.USER_TAG_PUSH }}
+          
+      - name: Scan user
+        uses: anchore/scan-action@v3
+        with:
+          image: ${{ env.USER_TAG_PUSH }}
+          
+      - name: Push user
         uses: docker/build-push-action@v2
         with:
           context: src/Services/User
@@ -63,6 +104,7 @@ jobs:
   
     needs: build_push_images
     runs-on: ubuntu-latest
+    name: Deploy images to AKS
     
     steps:
       - name: Set AKS context

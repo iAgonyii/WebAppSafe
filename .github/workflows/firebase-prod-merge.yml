@@ -12,6 +12,7 @@ name: Deploy live to Firebase Hosting on merge to master
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+    name: Build and deploy to production
     defaults:
       run:
         working-directory: src/Web
