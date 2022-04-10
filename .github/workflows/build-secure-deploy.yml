@@ -124,6 +124,9 @@ jobs:
     name: Deploy images to AKS
     
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
       - name: Set AKS context
         uses: azure/aks-set-context@v1
         with:
