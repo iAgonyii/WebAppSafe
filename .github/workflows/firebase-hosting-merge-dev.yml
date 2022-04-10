@@ -12,6 +12,7 @@ name: Deploy preview to Firebase Hosting on merge to dev
 jobs:
   build_and_preview:
     runs-on: ubuntu-latest
+    name: Build and deploy preview
     defaults:
       run:
         working-directory: src/Web
