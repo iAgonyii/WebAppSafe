@@ -55,6 +55,7 @@ jobs:
           image: ${{ env.GATEWAY_TAG_PUSH }}
           acs-report-enable: true
           severity-cutoff: "high"
+          fail-build: false
       
       - name: Inspect scan-gateway SARIF report
         run: cat ${{ steps.scan-gateway.outputs.sarif }}
@@ -81,6 +82,7 @@ jobs:
           image: ${{ env.SCAN_TAG_PUSH }}
           acs-report-enable: true
           severity-cutoff: "high"
+          fail-build: false
           
       - name: Inspect scan-scan SARIF report
         run: cat ${{ steps.scan-scan.outputs.sarif }}
@@ -107,6 +109,7 @@ jobs:
           image: ${{ env.USER_TAG_PUSH }}
           acs-report-enable: true
           severity-cutoff: "high"
+          fail-build: false
           
       - name: Inspect scan-user SARIF report
         run: cat ${{ steps.scan-user.outputs.sarif }}
