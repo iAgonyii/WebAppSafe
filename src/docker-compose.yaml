@@ -1,4 +1,4 @@
-﻿# Run using docker compose rm -f and then docker compose up --build
+﻿# Run using docker compose rm -f OR docker compose down and then docker compose up --build -d
 
 version: "3.9"
 services: 
