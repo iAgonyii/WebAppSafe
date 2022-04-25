@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Google.Type;
+using Microsoft.EntityFrameworkCore;
+using DateTime = System.DateTime;
 
 namespace Scan.Data;
 

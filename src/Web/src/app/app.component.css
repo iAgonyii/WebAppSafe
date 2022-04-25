@@ -1,0 +1,60 @@
+.layout {
+  min-height: 100vh;
+}
+
+.logo {
+  float: left;
+  margin-left: 100px;
+}
+
+.logo i {
+  color: midnightblue;
+  font-size: 40px;
+}
+
+.logo span {
+  font-size: 40px;
+  margin-left: 35px;
+  font-weight: bolder;
+}
+
+nz-header {
+  position: fixed;
+  width: 100%;
+  background-color: transparent;
+  padding: 0 225px;
+}
+
+nz-header ul {
+  border-radius: 0 0 10px 10px;
+  box-shadow:
+    0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12);
+}
+
+[nz-menu] {
+  line-height: 64px;
+}
+
+nz-content {
+  padding: 0 225px;
+  margin-top: 64px;
+}
+
+nz-breadcrumb {
+  margin: 16px 0;
+}
+
+.inner-content {
+  background: #fff;
+  padding: 24px;
+  min-height: 380px;
+}
+
+nz-footer {
+  text-align: center;
+}

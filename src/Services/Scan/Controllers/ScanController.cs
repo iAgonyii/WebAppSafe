@@ -5,7 +5,7 @@ using Scan.Data;
 namespace Scan.Controllers
 {
     [ApiController]
-    [Route("api/s/[controller]")]
+    [Route("api/[controller]")]
     public class ScanController : ControllerBase
     {
         private readonly ILogger<ScanController> _logger;
@@ -20,14 +20,7 @@ namespace Scan.Controllers
             _dapr = new DaprClientBuilder().Build();
         }
 
-        List<Scan> MockScans = new List<Scan>()
-        {
-            new Scan("1", DateTime.Now, "Scan number 1"),
-            new Scan("2", DateTime.Now, "Scan number 2"),
-            new Scan("3", DateTime.Now, "Scan number 3"),
-        };
-
-        [HttpPost]
+        [HttpPost("add")]
         public async Task<ActionResult<Scan>> PostScan(Scan scan)
         {
             _context.scans.Add(scan);
@@ -36,7 +29,7 @@ namespace Scan.Controllers
             await _dapr.PublishEventAsync("pubsub", "newScan", scan);
             Console.WriteLine($"Published scan: {scan.id}");
 
-            return Ok();
+            return Ok(scan.id);
         }
 
         [HttpGet("{id}")]
@@ -52,7 +45,7 @@ namespace Scan.Controllers
             return scan;
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<ActionResult<List<Scan>>> GetAllScans()
         {
             return _context.scans.ToList();
