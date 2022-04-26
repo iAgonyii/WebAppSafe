@@ -15,8 +15,7 @@ export class HomeScanComponent implements OnInit {
   submitForm(): void {
     console.log('submit', this.validateForm.value);
     let scan = this.validateForm.value;
-    scan.id = 'test2';
-    scan.date = "1975-08-19T23:15:30.000Z";
+    scan.date = new Date().toISOString();
     scan.data = "test";
     this.scanService.postScan(scan);
   }

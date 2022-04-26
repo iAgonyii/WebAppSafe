@@ -1,17 +1,19 @@
-<form nz-form [nzLayout]="'inline'" [formGroup]="validateForm" (ngSubmit)="submitForm()">
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
   <nz-form-item>
-    <nz-form-control nzErrorTip="Please input a valid URL">
+    <nz-form-control [nzSpan]="4" [nzOffset]="10" nzErrorTip="Please input a valid URL">
       <nz-input-group nzPrefixIcon="link">
-        <input formControlName="url" nz-input placeholder="Enter URL..." />
+        <input formControlName="url" nz-input placeholder="Enter URL..."/>
       </nz-input-group>
     </nz-form-control>
+    <button nz-button nzType="primary" [disabled]="!validateForm.valid" style="margin-left: 15px">
+      Start scan
+      <i nz-icon nzType="caret-right" nzTheme="outline"></i>     </button>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-control>
-      <button nz-button nzType="primary" [disabled]="!validateForm.valid">
-        Start scan
-        <i nz-icon nzType="caret-right" nzTheme="outline"></i>
-      </button>
+    <nz-form-control [nzSpan]="4" [nzOffset]="10">
+      <label nz-checkbox formControlName="hidden">
+        Hide from other users
+      </label>
     </nz-form-control>
   </nz-form-item>
 </form>

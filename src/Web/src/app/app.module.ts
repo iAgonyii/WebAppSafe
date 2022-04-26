@@ -21,6 +21,7 @@ import { GlobalOutline, LinkOutline, CaretRightOutline } from '@ant-design/icons
 import {NzFormModule} from "ng-zorro-antd/form";
 import {NzInputModule} from "ng-zorro-antd/input";
 import {NzButtonModule} from "ng-zorro-antd/button";
+import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
 
 const icons: IconDefinition[] = [ GlobalOutline, LinkOutline, CaretRightOutline];
 
@@ -31,22 +32,23 @@ registerLocaleData(en);
     AppComponent,
     HomeScanComponent
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    NzIconModule.forRoot(icons),
-    NzLayoutModule,
-    NzBreadCrumbModule,
-    NzMenuModule,
-    NzIconModule,
-    NzFormModule,
-    ReactiveFormsModule,
-    NzInputModule,
-    NzButtonModule
-  ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        AppRoutingModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        NzIconModule.forRoot(icons),
+        NzLayoutModule,
+        NzBreadCrumbModule,
+        NzMenuModule,
+        NzIconModule,
+        NzFormModule,
+        ReactiveFormsModule,
+        NzInputModule,
+        NzButtonModule,
+        NzCheckboxModule
+    ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
 })
