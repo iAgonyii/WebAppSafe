@@ -77,6 +77,33 @@ services:
       - user_service
     network_mode: "service:user_service"
     
+  runner:
+    build: Runner/
+    hostname: runner
+    ports:
+      - "50051:50051"
+    depends_on:
+      - redis
+      - placement
+    networks:
+      - local-dev
+        
+  runner_dapr:
+    image: "daprio/daprd:edge"
+    command: [
+      "./daprd",
+      "-app-id", "runner",
+      "-app-protocol", "grpc",
+      "-app-port", "50051",
+      "-placement-host-address", "placement:50006",
+      "-components-path", "/components"
+    ]
+    volumes:
+      - "../dev/:/components"
+    depends_on:
+      - runner
+    network_mode: "service:runner"
+  
   
   placement:
     image: "daprio/dapr"

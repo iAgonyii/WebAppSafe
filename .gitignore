@@ -407,3 +407,6 @@ FodyWeavers.xsd
 .env
 
 dockerconfigjson.yaml
+
+venv/
+venv/*

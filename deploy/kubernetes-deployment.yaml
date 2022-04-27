@@ -92,6 +92,31 @@ spec:
 
 ---
 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: runner-deployment # Name of the deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: runner-pod # The deployment will target pods with this name
+  template:
+    metadata:
+      labels:
+        app: runner-pod # Name of the pods
+    spec:
+      containers:
+        - name: runner-container # Name we want to give the container
+          image: ghcr.io/iagonyii/runner:latest # Remote Docker image
+          ports:
+            - containerPort: 50051 # Expose the port that the service/app runs on
+          imagePullPolicy: Always
+      imagePullSecrets: # Token secret for pulling private Docker image from GitHub
+        - name: dockerconfigjson-github-com
+
+---
+
 kind: Service
 apiVersion: v1
 metadata:
