@@ -1,7 +1,11 @@
 ﻿from cloudevents.sdk.event import v1
 from dapr.ext.grpc import App
-import json
 from dapr.clients import DaprClient
+
+import json
+import _thread
+
+import test
 
 app = App()
 
@@ -11,8 +15,12 @@ def newscan(event: v1.Event) -> None:
     data = json.loads(event.Data())
     print(f'Received message: {data}, content_type="{event.content_type}"', flush=True)
     # Received the new scan request
-    # Do something ...
-    # Publish result
+    # Do something ... (LOOK AT THREADING MODULE INSTEAD)
+    try:
+        _thread.start_new_thread(test.hello, ())
+    except:
+        print ("Error: unable to start scanning thread")
+    # Publish result - this might have to be in end of thread function
     publishresult()
 
 
