@@ -25,7 +25,8 @@ export class HomeScanComponent implements OnInit {
   ngOnInit(): void {
     this.validateForm = this.fb.group({
       url: [null, [Validators.required, Validators.pattern(this.urlRegex)]],
-      hidden: [false]
+      hidden: [false],
+      rescan: [false]
     });
   }
 

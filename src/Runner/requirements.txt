@@ -1,3 +1,4 @@
 ﻿dapr
 dapr-ext-grpc
 cloudevents
+requests

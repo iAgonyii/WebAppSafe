@@ -13,5 +13,6 @@ namespace Scan
         public string url { get; set; }
         public string? data { get; set; }
         public bool hidden { get; set; }
+        public bool rescan { get; set; }
     }
 }
