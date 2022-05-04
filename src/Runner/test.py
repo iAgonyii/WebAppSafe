@@ -2,8 +2,8 @@
 import time
 from urllib.parse import urlparse
 
-from dapr.clients import DaprClient
 import requests
+import report
 
 
 http_observatory_api = 'https://http-observatory.security.mozilla.org/api/v1'
@@ -12,13 +12,12 @@ http_observatory_api = 'https://http-observatory.security.mozilla.org/api/v1'
 def entry_point(metadata):
     print(f'Starting new scan for: {metadata["url"]}')
     observatory_scan = init_observatory_scan(metadata['url'], metadata['rescan'])
-    print(observatory_scan)
+    # print(observatory_scan)
     observatory_tests = None
     if observatory_scan.get('state') == 'FINISHED':
-        # query test results, and maybe combine this into one object with the scan metadata response
         observatory_tests = get_observatory_results(observatory_scan['scan_id'])
-    print(observatory_tests)
-
+    # print(observatory_tests)
+    
     # Combine observatory_scan and observatory_tests into something for our own application
     # {
     #    parentdata: data
@@ -31,15 +30,7 @@ def entry_point(metadata):
     #
     #
     
-
-    # Publish result - DO SOMETHING AT THE END
-    # publishresult()
-
-
-def publishresult():
-    with DaprClient() as dapr:
-        resp = dapr.publish_event(pubsub_name='pubsub', topic_name='scanResult', data='{"result":"VERY BAD"}')
-        print(resp.headers)
+    report.new_report(metadata, observatory_scan, observatory_tests)
 
 
 def init_observatory_scan(url, rescan):
@@ -70,11 +61,11 @@ def check_observatory_progress(host):
     return resp
 
 
-# Only for testing purposes
 def get_observatory_results(scan_id):
     return requests.get(http_observatory_api + f'/getScanResults?scan={scan_id}').json()
 
 
+# Only for debug purposes
 if __name__ == "__main__":
     metadata = {'url': str(sys.argv[1]), 'rescan': sys.argv[2]}
     entry_point(metadata)
