@@ -15,5 +15,6 @@ public class Report : IReport
     public string url { get; set; }
     public bool hidden { get; set; }
     public bool rescan { get; set; }
+    public string grade { get; set; }
     public string observatory { get; set; }
 }

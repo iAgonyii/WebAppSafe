@@ -15,6 +15,7 @@ env:
   GATEWAY_TAG_PUSH: ghcr.io/iagonyii/gateway:latest
   SCAN_TAG_PUSH: ghcr.io/iagonyii/scanservice:latest
   USER_TAG_PUSH: ghcr.io/iagonyii/userservice:latest
+  REPORT_TAG_PUSH: ghcr.io/iagonyii/reportservice:latest
   RUNNER_TAG_PUSH: ghcr.io/iagonyii/runner:latest
 
 jobs:
@@ -145,6 +146,33 @@ jobs:
           context: src/Runner
           push: true
           tags: ${{ env.RUNNER_TAG_PUSH }}
+          
+      - name: Build report
+        uses: docker/build-push-action@v2
+        with:
+          context: src/Services/Report
+          push: false
+          load: true
+          tags: ${{ env.REPORT_TAG_PUSH }}
+
+      - name: Scan report
+        uses: anchore/scan-action@v3
+        id: scan-report
+        with:
+          image: ${{ env.REPORT_TAG_PUSH }}
+          acs-report-enable: true
+          severity-cutoff: "high"
+          fail-build: false
+
+      - name: Inspect scan-report SARIF report
+        run: cat ${{ steps.scan-report.outputs.sarif }}
+
+      - name: Push report
+        uses: docker/build-push-action@v2
+        with:
+          context: src/Services/Report
+          push: true
+          tags: ${{ env.REPORT_TAG_PUSH }}
 
 
   deploy:

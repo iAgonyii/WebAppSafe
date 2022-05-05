@@ -1,7 +1,7 @@
 ﻿
 
 namespace Report;
-
+// currently unused
 public interface IReport
 {
 
