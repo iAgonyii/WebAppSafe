@@ -21,15 +21,42 @@ namespace Scan.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<ActionResult<Scan>> PostScan(Scan scan)
+        public async Task<ObjectResult> PostScan(Scan scan)
         {
-            _context.scans.Add(scan);
-            await _context.SaveChangesAsync();
-
-            await _dapr.PublishEventAsync("pubsub", "newScan", scan);
-            Console.WriteLine($"Published scan: {scan.id}");
-
-            return Ok(scan.id);
+            // USING THE RETURNED SCAN ID, WE CAN POLL ON FRONTEND FOR REPORTS WITH THAT SCAN ID
+            if (!scan.rescan)
+            {
+                // Look for a report in last 24 hours if one exists first
+                DateTime _24HoursAgo = DateTime.Now.AddHours(-24);
+                var latestScan24Hours = _context.scans.Where(s => s.url == scan.url && s.date >= _24HoursAgo).OrderByDescending(s => s.date).FirstOrDefault();
+                if (latestScan24Hours != null)
+                {
+                    return Ok(latestScan24Hours.id);
+                }
+                else
+                {
+                    return await SaveAndPublish(scan);
+                }
+            }
+            else
+            {
+                var latestScan = _context.scans.Where(s => s.url == scan.url).OrderByDescending(s => s.date).FirstOrDefault();
+                if (latestScan != null)
+                {
+                    if (latestScan.date.AddMinutes(5) < DateTime.Now)
+                    {
+                        return await SaveAndPublish(scan);
+                    }
+                    else
+                    {
+                        return StatusCode(StatusCodes.Status429TooManyRequests, "Please wait at least 5 minutes for a forced rescan");
+                    }
+                } 
+                else
+                {
+                    return await SaveAndPublish(scan);
+                }
+            }
         }
 
         [HttpGet("{id}")]
@@ -49,6 +76,17 @@ namespace Scan.Controllers
         public async Task<ActionResult<List<Scan>>> GetAllScans()
         {
             return _context.scans.ToList();
+        }
+
+        private async Task<ObjectResult> SaveAndPublish(Scan scan)
+        {
+            _context.scans.Add(scan);
+            await _context.SaveChangesAsync();
+
+            await _dapr.PublishEventAsync("pubsub", "newScan", scan);
+            Console.WriteLine($"Published scan: {scan.id}");
+            
+            return Ok(scan.id);
         }
     }
 }
