@@ -24,3 +24,10 @@
     </nz-form-control>
   </nz-form-item>
 </form>
+<nz-modal nzMaskClosable="false" [nzFooter]="null" [(nzVisible)]="isVisible" nzTitle="Scan initiated" (nzOnCancel)="handleCancel()">
+  <ng-container *nzModalContent>
+    Scan initiated for <b>{{modalUrl}}</b><br>
+    You will be automatically redirected when the results are in. <br>
+    You can close this window.
+  </ng-container>
+</nz-modal>

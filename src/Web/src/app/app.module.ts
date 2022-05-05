@@ -22,6 +22,9 @@ import {NzFormModule} from "ng-zorro-antd/form";
 import {NzInputModule} from "ng-zorro-antd/input";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
+import {NzModalModule} from "ng-zorro-antd/modal";
+import {NzNotificationServiceModule} from "ng-zorro-antd/notification";
+import { ReportComponent } from './components/report/report.component';
 
 const icons: IconDefinition[] = [ GlobalOutline, LinkOutline, CaretRightOutline];
 
@@ -30,7 +33,8 @@ registerLocaleData(en);
 @NgModule({
   declarations: [
     AppComponent,
-    HomeScanComponent
+    HomeScanComponent,
+    ReportComponent
   ],
     imports: [
         BrowserModule,
@@ -47,7 +51,9 @@ registerLocaleData(en);
         ReactiveFormsModule,
         NzInputModule,
         NzButtonModule,
-        NzCheckboxModule
+        NzCheckboxModule,
+        NzModalModule,
+        NzNotificationServiceModule
     ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]

@@ -43,5 +43,33 @@ namespace Report.Controllers
             
             return Ok(report.id);
         }
+        
+        [HttpGet("poll/{scan}")]
+        public async Task<ActionResult<Report>> PollReportByScanId(string scan)
+        {
+            Guid scanGuid = Guid.Parse(scan);
+            var report = _context.reports.FirstOrDefault(r => r.scan == scanGuid);
+
+            if (report == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(report.id);
+        }
+        
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Report>> GetReport(string id)
+        {
+            Guid reportGuid = Guid.Parse(id);
+            var report = await _context.reports.FindAsync(reportGuid);
+
+            if (report == null)
+            {
+                return NotFound();
+            }
+
+            return report;
+        }
     }
 }
