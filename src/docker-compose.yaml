@@ -76,7 +76,65 @@ services:
     depends_on:
       - user_service
     network_mode: "service:user_service"
-    
+  
+  report_service:
+    build: Services/Report
+    hostname: report-service
+    ports:
+      - "7181:80"
+      - "7282:443"
+      - "50003:50003"
+    depends_on:
+      - redis
+      - placement
+    networks:
+      - local-dev
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - COSMOS_DB_MASTER_KEY=${COSMOS_DB_MASTER_KEY}
+
+  report_service_dapr:
+    image: "daprio/daprd:edge"
+    command: [
+      "./daprd",
+      "-app-id", "reportservice",
+      "-app-port", "80",
+      "-placement-host-address", "placement:50006",
+      "-components-path", "/components"
+    ]
+    volumes:
+      - "../dev/:/components"
+    depends_on:
+      - report_service
+    network_mode: "service:report_service"
+  
+  runner:
+    build: Runner/
+    hostname: runner
+    ports:
+      - "50051:50051"
+    depends_on:
+      - redis
+      - placement
+    networks:
+      - local-dev
+        
+  runner_dapr:
+    image: "daprio/daprd:edge"
+    command: [
+      "./daprd",
+      "-app-id", "runner",
+      "-app-protocol", "grpc",
+      "-app-port", "50051",
+      "-placement-host-address", "placement:50006",
+      "-components-path", "/components"
+    ]
+    volumes:
+      - "../dev/:/components"
+    depends_on:
+      - runner
+    network_mode: "service:runner"
+  
   
   placement:
     image: "daprio/dapr"

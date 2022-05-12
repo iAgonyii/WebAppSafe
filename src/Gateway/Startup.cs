@@ -12,6 +12,10 @@ namespace Gateway
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOcelot().AddKubernetes();
+            services.AddCors(o => o.AddPolicy("default", builder =>
+            {
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -21,6 +25,8 @@ namespace Gateway
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("default");
 
             app.UseRouting();
 

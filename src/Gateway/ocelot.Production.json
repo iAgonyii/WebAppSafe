@@ -1,7 +1,7 @@
 ﻿{
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/s/{everything}",
+      "DownstreamPathTemplate": "/api/scan/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -9,11 +9,11 @@
           "Port": 7001
         }
       ],
-      "UpstreamPathTemplate": "/api/s/{everything}",
+      "UpstreamPathTemplate": "/api/scan/{everything}",
       "UpstreamHttpMethod": []
     },
     {
-      "DownstreamPathTemplate": "/api/u/{everything}",
+      "DownstreamPathTemplate": "/api/user/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -21,7 +21,19 @@
           "Port": 7002
         }
       ],
-      "UpstreamPathTemplate": "/api/u/{everything}",
+      "UpstreamPathTemplate": "/api/user/{everything}",
+      "UpstreamHttpMethod": []
+    },
+    {
+      "DownstreamPathTemplate": "/api/report/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reportservice-service.default.svc.cluster.local",
+          "Port": 7003
+        }
+      ],
+      "UpstreamPathTemplate": "/api/report/{everything}",
       "UpstreamHttpMethod": []
     }
   ],

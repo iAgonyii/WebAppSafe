@@ -14,9 +14,9 @@ export class AppComponent implements OnInit {
   constructor(private scanService: ScanService) {}
 
   ngOnInit(): void {
-    this.scanService.getAllScans().subscribe(res => {
-      this.scans = res;
-    });
+    // this.scanService.getAllScans().subscribe(res => {
+    //   this.scans = res;
+    // });
   }
 
 

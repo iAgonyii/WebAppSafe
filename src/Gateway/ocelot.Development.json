@@ -1,7 +1,7 @@
 ﻿{
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/s/{everything}",
+      "DownstreamPathTemplate": "/api/scan/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -9,11 +9,11 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/api/s/{everything}",
+      "UpstreamPathTemplate": "/api/scan/{everything}",
       "UpstreamHttpMethod": []
     },
     {
-      "DownstreamPathTemplate": "/api/u/{everything}",
+      "DownstreamPathTemplate": "/api/user/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -21,7 +21,19 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/api/u/{everything}",
+      "UpstreamPathTemplate": "/api/user/{everything}",
+      "UpstreamHttpMethod": []
+    },
+    {
+      "DownstreamPathTemplate": "/api/report/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "report-service",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/report/{everything}",
       "UpstreamHttpMethod": []
     }
   ],
