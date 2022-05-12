@@ -10,7 +10,11 @@
         }
       ],
       "UpstreamPathTemplate": "/api/scan/{everything}",
-      "UpstreamHttpMethod": []
+      "UpstreamHttpMethod": [],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/api/user/{everything}",
@@ -22,7 +26,11 @@
         }
       ],
       "UpstreamPathTemplate": "/api/user/{everything}",
-      "UpstreamHttpMethod": []
+      "UpstreamHttpMethod": [],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/api/report/{everything}",
@@ -34,7 +42,11 @@
         }
       ],
       "UpstreamPathTemplate": "/api/report/{everything}",
-      "UpstreamHttpMethod": []
+      "UpstreamHttpMethod": [],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     }
   ],
   "GlobalConfiguration": {
