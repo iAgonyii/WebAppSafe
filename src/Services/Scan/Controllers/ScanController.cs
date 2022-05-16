@@ -1,3 +1,5 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Cryptography;
 using Dapr.Client;
 using Microsoft.AspNetCore.Mvc;
 using Scan.Data;
@@ -35,7 +37,7 @@ namespace Scan.Controllers
                 }
                 else
                 {
-                    return await SaveAndPublish(scan);
+                    return await SaveAndPublish(scan, getAuthentication(Request));
                 }
             }
             else
@@ -45,7 +47,7 @@ namespace Scan.Controllers
                 {
                     if (latestScan.date.AddMinutes(5) < DateTime.Now)
                     {
-                        return await SaveAndPublish(scan);
+                        return await SaveAndPublish(scan, getAuthentication(Request));
                     }
                     else
                     {
@@ -54,7 +56,7 @@ namespace Scan.Controllers
                 } 
                 else
                 {
-                    return await SaveAndPublish(scan);
+                    return await SaveAndPublish(scan, getAuthentication(Request));
                 }
             }
         }
@@ -78,8 +80,12 @@ namespace Scan.Controllers
             return _context.scans.ToList();
         }
 
-        private async Task<ObjectResult> SaveAndPublish(Scan scan)
+        private async Task<ObjectResult> SaveAndPublish(Scan scan, User? user)
         {
+            if (user != null)
+            {
+                scan.createdBy = user;
+            }
             _context.scans.Add(scan);
             await _context.SaveChangesAsync();
 
@@ -87,6 +93,26 @@ namespace Scan.Controllers
             Console.WriteLine($"Published scan: {scan.id}");
             
             return Ok(scan.id);
+        }
+
+        private User? getAuthentication(HttpRequest request)
+        {
+            if (request.Headers.TryGetValue("Authorization", out var authHeader))
+            {
+                var jwt = authHeader.ToString().Split(" ")[1];
+                var handler = new JwtSecurityTokenHandler();
+                var claims = handler.ReadJwtToken(jwt).Claims;
+                string user_id = claims.First(claim => claim.Type == "user_id").Value;
+                string email = claims.First(claim => claim.Type == "email").Value;
+                User user = new User();
+                user.id = user_id;
+                user.email = email;
+                return user;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

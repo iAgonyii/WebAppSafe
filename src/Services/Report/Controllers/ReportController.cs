@@ -33,6 +33,7 @@ namespace Report.Controllers
             report.url = json["url"].ToString();
             report.hidden = Boolean.Parse(json["hidden"].ToString()); 
             report.rescan = Boolean.Parse(json["rescan"].ToString());
+            report.createdBy = json["createdBy"].ToObject<User>();
             report.grade = json["grade"].ToString();
             report.observatory = json["observatory"].ToString();
             

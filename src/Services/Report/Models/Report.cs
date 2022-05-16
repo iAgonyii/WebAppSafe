@@ -16,5 +16,7 @@ public class Report : IReport
     public bool hidden { get; set; }
     public bool rescan { get; set; }
     public string grade { get; set; }
+    public User? createdBy { get; set; }
     public string observatory { get; set; }
+
 }

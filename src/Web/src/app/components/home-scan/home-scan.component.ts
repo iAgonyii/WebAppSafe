@@ -23,6 +23,7 @@ export class HomeScanComponent implements OnInit {
     let scan = this.validateForm.value;
     scan.date = new Date().toISOString();
     scan.data = "test";
+    scan.createdBy = null;
     this.scanService.postScan(scan);
     this.modalUrl = this.validateForm.value.url
 

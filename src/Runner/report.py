@@ -11,6 +11,7 @@ def new_report(scan_metadata, observatory_scan, observatory_tests):
     report['url'] = scan_metadata['url']
     report['hidden'] = scan_metadata['hidden']
     report['rescan'] = scan_metadata['rescan']
+    report['createdBy'] = scan_metadata['createdBy']
     if observatory_scan.get('error'):
         report['observatory'] = {}
         report['observatory']['error'] = observatory_scan['error']
