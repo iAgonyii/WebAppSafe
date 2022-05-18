@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { HomeScanComponent } from './components/home-scan/home-scan.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
@@ -30,6 +30,7 @@ import { RegisterComponent } from './components/register/register.component';
 import {AngularFireAuthModule} from "@angular/fire/auth";
 import {AngularFireModule} from "@angular/fire";
 import { ProfileComponent } from './components/profile/profile.component';
+import {AuthInterceptor} from "./services/AuthInterceptor";
 
 const icons: IconDefinition[] = [ GlobalOutline, LinkOutline, CaretRightOutline];
 
@@ -75,7 +76,7 @@ const firebaseConfig = {
         AngularFireModule.initializeApp(firebaseConfig),
         AngularFireAuthModule
     ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [{ provide: NZ_I18N, useValue: en_US }, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

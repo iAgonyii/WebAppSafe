@@ -9,7 +9,21 @@
           "Port": 7001
         }
       ],
+      "Priority": 0,
       "UpstreamPathTemplate": "/api/scan/{everything}",
+      "UpstreamHttpMethod": []
+    },
+    {
+      "DownstreamPathTemplate": "/api/scan/authenticated/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "scanservice-service.default.svc.cluster.local",
+          "Port": 7001
+        }
+      ],
+      "Priority": 1,
+      "UpstreamPathTemplate": "/api/scan/authenticated/{everything}",
       "UpstreamHttpMethod": [],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
@@ -25,7 +39,21 @@
           "Port": 7002
         }
       ],
+      "Priority": 0,
       "UpstreamPathTemplate": "/api/user/{everything}",
+      "UpstreamHttpMethod": []
+    },
+    {
+      "DownstreamPathTemplate": "/api/user/authenticated/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "userservice-service.default.svc.cluster.local",
+          "Port": 7002
+        }
+      ],
+      "Priority": 1,
+      "UpstreamPathTemplate": "/api/user/authenticated/{everything}",
       "UpstreamHttpMethod": [],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
@@ -41,7 +69,21 @@
           "Port": 7003
         }
       ],
+      "Priority": 0,
       "UpstreamPathTemplate": "/api/report/{everything}",
+      "UpstreamHttpMethod": []
+    },
+    {
+      "DownstreamPathTemplate": "/api/report/authenticated/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reportservice-service.default.svc.cluster.local",
+          "Port": 7003
+        }
+      ],
+      "Priority": 1,
+      "UpstreamPathTemplate": "/api/report/authenticated/{everything}",
       "UpstreamHttpMethod": [],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",

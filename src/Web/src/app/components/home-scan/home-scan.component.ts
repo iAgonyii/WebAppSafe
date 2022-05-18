@@ -28,7 +28,7 @@ export class HomeScanComponent implements OnInit {
     this.modalUrl = this.validateForm.value.url
 
     // Reset form values
-    this.validateForm.value.url = '';
+    // this.validateForm.value.url = '';
     this.validateForm.value.rescan = false;
     this.validateForm.value.hidden = false;
   }

@@ -18,6 +18,7 @@ namespace User.Controllers
         {
             _logger = logger;
             _context = context;
+            _context.Database.EnsureCreated(); 
         }
         
         [Topic("pubsub", "newScan")]
@@ -28,7 +29,7 @@ namespace User.Controllers
             return Ok();
         }
         
-        [HttpPost("/add")]
+        [HttpPost("authenticated/add")]
         public async Task<ActionResult> NewUser()
         {
             if (Request.Headers.TryGetValue("Authorization", out var authHeader))
@@ -44,7 +45,7 @@ namespace User.Controllers
                 
                 _context.users.Add(user);
                 await _context.SaveChangesAsync();
-                return Ok("User saved");
+                return Ok();
             }
             else
             {
