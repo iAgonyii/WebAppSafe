@@ -1,1 +1,11 @@
-<p>profile works!</p>
+{{me.id}}<br>
+{{me.email}}<br>
+Admin: {{me.admin}}
+
+<div *ngIf="me.admin" class="form-container">
+  <h2>Make someone admin</h2>
+  <form #formData='ngForm' (ngSubmit)="onSubmit(formData)">
+    <input type="text" placeholder="Email address" [(ngModel)]="email" name="email" class="input-txt" required>
+    <button type="submit" [disabled]="!formData.valid" class="auth-btn">Make admin</button>
+  </form>
+</div>

@@ -6,8 +6,9 @@
     </div>
     <ul nz-menu nzTheme="light" nzMode="horizontal">
       <li nz-menu-item>nav 1</li>
-      <li nz-menu-item>nav 2</li>
-      <li nz-menu-item>nav 3</li>
+      <li *ngIf="authService.isAuthenticated" [routerLink]="['/profile']" nz-menu-item>Profile</li>
+      <li *ngIf="authService.isAuthenticated()" (click)="logout()" nz-menu-item>Logout</li>
+      <li *ngIf="!authService.isAuthenticated()" [routerLink]="['/login']" nz-menu-item>Login</li>
     </ul>
   </nz-header>
   <nz-content>

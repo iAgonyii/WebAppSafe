@@ -8,5 +8,6 @@ namespace User
         public string id { get; set; }
         [EmailAddress]
         public string email { get; set; }
+        public bool admin { get; set; }
     }
 }

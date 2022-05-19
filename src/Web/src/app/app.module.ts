@@ -31,6 +31,7 @@ import {AngularFireAuthModule} from "@angular/fire/auth";
 import {AngularFireModule} from "@angular/fire";
 import { ProfileComponent } from './components/profile/profile.component';
 import {AuthInterceptor} from "./services/AuthInterceptor";
+import {AuthGuard} from "./services/AuthGuard";
 
 const icons: IconDefinition[] = [ GlobalOutline, LinkOutline, CaretRightOutline];
 
@@ -76,7 +77,7 @@ const firebaseConfig = {
         AngularFireModule.initializeApp(firebaseConfig),
         AngularFireAuthModule
     ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
+  providers: [{ provide: NZ_I18N, useValue: en_US }, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

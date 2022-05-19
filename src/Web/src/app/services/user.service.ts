@@ -18,4 +18,11 @@ export class UserService {
     return this.httpClient.post(this.url + '/authenticated/add', {observe: 'response'});
   }
 
+  me(): Observable<any> {
+    return this.httpClient.get(this.url + '/authenticated/me');
+  }
+
+  makeAdmin(email: string): void {
+    this.httpClient.post(this.url + '/authenticated/admin/' + email, {}).subscribe();
+  }
 }
