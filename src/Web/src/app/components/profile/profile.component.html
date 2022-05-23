@@ -2,10 +2,7 @@
 {{me.email}}<br>
 Admin: {{me.admin}}
 
-<div *ngIf="me.admin" class="form-container">
-  <h2>Make someone admin</h2>
-  <form #formData='ngForm' (ngSubmit)="onSubmit(formData)">
-    <input type="text" placeholder="Email address" [(ngModel)]="email" name="email" class="input-txt" required>
-    <button type="submit" [disabled]="!formData.valid" class="auth-btn">Make admin</button>
-  </form>
-</div>
+
+<br><br>
+<h2>My recent scan reports</h2>
+<p *ngFor="let report of recentReports">{{report.end_date | date: 'short' }} • {{report.url}} • <b>{{report.grade}}</b> • <a [routerLink]="['/report/' + report.id]">View report</a></p>

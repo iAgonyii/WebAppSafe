@@ -32,6 +32,8 @@ import {AngularFireModule} from "@angular/fire";
 import { ProfileComponent } from './components/profile/profile.component';
 import {AuthInterceptor} from "./services/AuthInterceptor";
 import {AuthGuard} from "./services/AuthGuard";
+import { AdminComponent } from './components/admin/admin.component';
+import {AdminGuard} from "./services/AdminGuard";
 
 const icons: IconDefinition[] = [ GlobalOutline, LinkOutline, CaretRightOutline];
 
@@ -54,7 +56,8 @@ const firebaseConfig = {
     ReportComponent,
     LoginComponent,
     RegisterComponent,
-    ProfileComponent
+    ProfileComponent,
+    AdminComponent
   ],
     imports: [
         BrowserModule,
@@ -77,7 +80,7 @@ const firebaseConfig = {
         AngularFireModule.initializeApp(firebaseConfig),
         AngularFireAuthModule
     ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, AuthGuard],
+  providers: [{ provide: NZ_I18N, useValue: en_US }, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, AuthGuard, AdminGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

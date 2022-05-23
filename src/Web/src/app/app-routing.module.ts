@@ -6,13 +6,16 @@ import {LoginComponent} from "./components/login/login.component";
 import {RegisterComponent} from "./components/register/register.component";
 import {ProfileComponent} from "./components/profile/profile.component";
 import {AuthGuard} from "./services/AuthGuard";
+import {AdminComponent} from "./components/admin/admin.component";
+import {AdminGuard} from "./services/AdminGuard";
 
 const routes: Routes = [
   { path: '', component: HomeScanComponent },
   { path: 'report/:id', component: ReportComponent},
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'admin', component: AdminComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

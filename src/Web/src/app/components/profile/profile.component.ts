@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from "../../services/user.service";
+import {ReportService} from "../../services/report.service";
 
 @Component({
   selector: 'app-profile',
@@ -9,22 +10,17 @@ import {UserService} from "../../services/user.service";
 export class ProfileComponent implements OnInit {
 
   me: any = {};
-  email;
+  recentReports: any = [];
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private reportService: ReportService) { }
 
   ngOnInit(): void {
     this.userService.me().subscribe(res => {
       this.me = res;
+      this.reportService.getMyRecentReports().subscribe(res => {
+        console.log(res);
+        this.recentReports = res;
+      });
     });
   }
-
-  onSubmit(formData) {
-    if (formData.valid) {
-      console.log(formData.value);
-      this.userService.makeAdmin(formData.value.email);
-      formData.reset('');
-    }
-  }
-
 }
