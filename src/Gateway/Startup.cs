@@ -11,6 +11,13 @@ namespace Gateway
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            var authenticationProviderKey = "Bearer";
+            services.AddAuthentication()
+                .AddJwtBearer(authenticationProviderKey, x =>
+                {
+                    x.Authority = "https://securetoken.google.com/webappsafe";
+                    x.Audience = "webappsafe";
+                });
             services.AddOcelot().AddKubernetes();
             services.AddCors(o => o.AddPolicy("default", builder =>
             {

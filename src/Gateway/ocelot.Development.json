@@ -9,8 +9,26 @@
           "Port": 80
         }
       ],
+      "Priority": 0,
       "UpstreamPathTemplate": "/api/scan/{everything}",
       "UpstreamHttpMethod": []
+    },
+    {
+      "DownstreamPathTemplate": "/api/scan/authenticated/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "scan-service",
+          "Port": 80
+        }
+      ],
+      "Priority": 1,
+      "UpstreamPathTemplate": "/api/scan/authenticated/{everything}",
+      "UpstreamHttpMethod": [],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/api/user/{everything}",
@@ -21,8 +39,26 @@
           "Port": 80
         }
       ],
+      "Priority": 0,
       "UpstreamPathTemplate": "/api/user/{everything}",
       "UpstreamHttpMethod": []
+    },
+    {
+      "DownstreamPathTemplate": "/api/user/authenticated/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "user-service",
+          "Port": 80
+        }
+      ],
+      "Priority": 1,
+      "UpstreamPathTemplate": "/api/user/authenticated/{everything}",
+      "UpstreamHttpMethod": [],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/api/report/{everything}",
@@ -33,8 +69,26 @@
           "Port": 80
         }
       ],
+      "Priority": 0,
       "UpstreamPathTemplate": "/api/report/{everything}",
       "UpstreamHttpMethod": []
+    },
+    {
+      "DownstreamPathTemplate": "/api/report/authenticated/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "report-service",
+          "Port": 80
+        }
+      ],
+      "Priority": 1,
+      "UpstreamPathTemplate": "/api/report/authenticated/{everything}",
+      "UpstreamHttpMethod": [],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     }
   ],
   "GlobalConfiguration": {

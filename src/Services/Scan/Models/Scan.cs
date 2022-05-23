@@ -14,5 +14,6 @@ namespace Scan
         public string? data { get; set; }
         public bool hidden { get; set; }
         public bool rescan { get; set; }
+        public User? createdBy { get; set; }
     }
 }

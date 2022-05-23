@@ -1,0 +1,8 @@
+{{me.id}}<br>
+{{me.email}}<br>
+Admin: {{me.admin}}
+
+
+<br><br>
+<h2>My recent scan reports</h2>
+<p *ngFor="let report of recentReports">{{report.end_date | date: 'short' }} • {{report.url}} • <b>{{report.grade}}</b> • <a [routerLink]="['/report/' + report.id]">View report</a></p>

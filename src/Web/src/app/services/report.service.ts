@@ -37,4 +37,12 @@ export class ReportService {
   getReport(id: number): Observable<any> {
     return this.httpClient.get(this.url + '/' + id);
   }
+
+  getMyRecentReports(): Observable<any> {
+    return this.httpClient.get(this.url + '/authenticated/recent/me');
+  }
+
+  getRecentPublicReports(): Observable<any> {
+    return this.httpClient.get(this.url + '/recent');
+  }
 }

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ScanService} from "../../services/scan.service";
 import {NzNotificationService} from "ng-zorro-antd/notification";
+import {ReportService} from "../../services/report.service";
 
 @Component({
   selector: 'app-home-scan',
@@ -14,6 +15,7 @@ export class HomeScanComponent implements OnInit {
   urlRegex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
   modalUrl;
   isVisible = false;
+  recentReports: any = [];
 
   submitForm(): void {
     // Open modal
@@ -23,16 +25,17 @@ export class HomeScanComponent implements OnInit {
     let scan = this.validateForm.value;
     scan.date = new Date().toISOString();
     scan.data = "test";
+    scan.createdBy = null;
     this.scanService.postScan(scan);
     this.modalUrl = this.validateForm.value.url
 
     // Reset form values
-    this.validateForm.value.url = '';
-    this.validateForm.value.rescan = false;
-    this.validateForm.value.hidden = false;
+    // this.validateForm.value.url = '';
+    // this.validateForm.value.rescan = false;
+    // this.validateForm.value.hidden = false;
   }
 
-  constructor(private fb: FormBuilder, private scanService: ScanService, private notificationService: NzNotificationService) {
+  constructor(private fb: FormBuilder, private scanService: ScanService, private notificationService: NzNotificationService, private reportService: ReportService) {
   }
 
   ngOnInit(): void {
@@ -46,6 +49,10 @@ export class HomeScanComponent implements OnInit {
       this.isVisible = false;
       this.notificationService.error('An error occurred', `An error occurred while initiating your scan for <b>${this.modalUrl}</b><br>${error}`, {nzPlacement: 'bottomRight', nzDuration: 10000})
     })
+
+    this.reportService.getRecentPublicReports().subscribe(res => {
+      this.recentReports = res;
+    });
   }
 
   showModal(): void {

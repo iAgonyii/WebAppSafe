@@ -1,10 +1,7 @@
-﻿
+﻿namespace Report;
 
-namespace Report;
-// currently unused
-public interface IReport
+public class ReportDTO
 {
-
     public Guid id { get; set; }
     public Guid scan { get; set; }
     public DateTime start_date { get; set; }
@@ -12,6 +9,5 @@ public interface IReport
     public string url { get; set; }
     public bool hidden { get; set; }
     public bool rescan { get; set; }
-    public User? createdBy { get; set; }
-    public string observatory { get; set; }
+    public string grade { get; set; }
 }

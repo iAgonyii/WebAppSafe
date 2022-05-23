@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { HomeScanComponent } from './components/home-scan/home-scan.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
@@ -25,16 +25,39 @@ import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
 import {NzModalModule} from "ng-zorro-antd/modal";
 import {NzNotificationServiceModule} from "ng-zorro-antd/notification";
 import { ReportComponent } from './components/report/report.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import {AngularFireAuthModule} from "@angular/fire/auth";
+import {AngularFireModule} from "@angular/fire";
+import { ProfileComponent } from './components/profile/profile.component';
+import {AuthInterceptor} from "./services/AuthInterceptor";
+import {AuthGuard} from "./services/AuthGuard";
+import { AdminComponent } from './components/admin/admin.component';
+import {AdminGuard} from "./services/AdminGuard";
 
 const icons: IconDefinition[] = [ GlobalOutline, LinkOutline, CaretRightOutline];
 
 registerLocaleData(en);
 
+const firebaseConfig = {
+  apiKey: "AIzaSyA61cz2uZ8pDV3ig7QKOM3la7xxdl5KjMA",
+  authDomain: "webappsafe.firebaseapp.com",
+  projectId: "webappsafe",
+  storageBucket: "webappsafe.appspot.com",
+  messagingSenderId: "203563566503",
+  appId: "1:203563566503:web:0ea786b3c7483db3dc6282",
+  measurementId: "G-GVDL45XGHS"
+};
+
 @NgModule({
   declarations: [
     AppComponent,
     HomeScanComponent,
-    ReportComponent
+    ReportComponent,
+    LoginComponent,
+    RegisterComponent,
+    ProfileComponent,
+    AdminComponent
   ],
     imports: [
         BrowserModule,
@@ -53,9 +76,11 @@ registerLocaleData(en);
         NzButtonModule,
         NzCheckboxModule,
         NzModalModule,
-        NzNotificationServiceModule
+        NzNotificationServiceModule,
+        AngularFireModule.initializeApp(firebaseConfig),
+        AngularFireAuthModule
     ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [{ provide: NZ_I18N, useValue: en_US }, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, AuthGuard, AdminGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
