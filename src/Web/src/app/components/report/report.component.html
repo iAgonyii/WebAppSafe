@@ -1,1 +1,43 @@
-<p>report works!</p>
+<nz-page-header>
+  <nz-page-header-title>{{report.url}}</nz-page-header-title>
+  <nz-page-header-subtitle>{{report.end_date | date: 'medium'}}</nz-page-header-subtitle>
+  <nz-page-header-subtitle *ngIf="report.createdBy"><b>By:</b> {{report.createdBy.email}}</nz-page-header-subtitle>
+  <nz-page-header-subtitle *ngIf="!report.createdBy"><b>By:</b> Guest user</nz-page-header-subtitle>
+
+  <nz-page-header-tags>
+    <nz-tag *ngIf="!report.hidden" nzColor="orange">Public</nz-tag>
+    <nz-tag *ngIf="report.hidden" nzColor="green">Private</nz-tag>
+  </nz-page-header-tags>
+  <nz-page-header-extra>
+    <button nz-button nzType="primary">Force rescan</button>
+  </nz-page-header-extra>
+  <nz-page-header-content>
+    <nz-row nzType="flex">
+      <nz-statistic nzTitle="Grade" nzValue="{{report.grade}}"></nz-statistic>
+      <nz-statistic *ngIf="report.observatory" nzTitle="Tests passed" style="margin: 0 32px" nzValue="{{report.observatory.metadata.tests_passed}}"></nz-statistic>
+      <nz-statistic *ngIf="report.observatory" nzTitle="Tests failed" style="margin: 0 32px" nzValue="{{report.observatory.metadata.tests_failed}}"></nz-statistic>
+      <nz-statistic *ngIf="report.observatory" nzTitle="Tests quantity" style="margin: 0 32px" nzValue="{{report.observatory.metadata.tests_quantity}}"></nz-statistic>
+    </nz-row>
+  </nz-page-header-content>
+</nz-page-header>
+<nz-collapse>
+  <nz-collapse-panel *ngIf="report.observatory" nzHeader="Observatory scan results" nzActive="true">
+    <h3>The observatory scan runs multiple individual tests checking for website security configurations.</h3>
+    <nz-collapse>
+      <nz-collapse-panel *ngFor="let test of report.observatory.tests | keyvalue:onCompare" [nzHeader]="test.key" [nzActive]="true">
+        <nz-tag *ngIf="test.value.pass" nzColor="green">PASSED</nz-tag>
+        <nz-tag *ngIf="!test.value.pass" nzColor="red">FAILED</nz-tag>
+        <p>{{test.value.score_description}}</p>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-collapse-panel>
+
+  <nz-collapse-panel *ngIf="report.observatory" nzHeader="Server response headers" nzActive="false">
+    <h3>Raw output of server response headers</h3>
+    <nz-collapse>
+      <nz-collapse-panel *ngFor="let header of report.observatory.metadata.response_headers | keyvalue:onCompare" [nzHeader]="header.key" [nzActive]="true">
+        <p>{{header.value}}</p>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-collapse-panel>
+</nz-collapse>

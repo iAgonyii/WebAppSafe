@@ -34,6 +34,10 @@ import {AuthInterceptor} from "./services/AuthInterceptor";
 import {AuthGuard} from "./services/AuthGuard";
 import { AdminComponent } from './components/admin/admin.component';
 import {AdminGuard} from "./services/AdminGuard";
+import {NzPageHeaderModule} from "ng-zorro-antd/page-header";
+import {NzTagModule} from "ng-zorro-antd/tag";
+import {NzStatisticModule} from "ng-zorro-antd/statistic";
+import {NzCollapseModule} from "ng-zorro-antd/collapse";
 
 const icons: IconDefinition[] = [ GlobalOutline, LinkOutline, CaretRightOutline];
 
@@ -59,27 +63,31 @@ const firebaseConfig = {
     ProfileComponent,
     AdminComponent
   ],
-    imports: [
-        BrowserModule,
-        HttpClientModule,
-        AppRoutingModule,
-        FormsModule,
-        BrowserAnimationsModule,
-        NzIconModule.forRoot(icons),
-        NzLayoutModule,
-        NzBreadCrumbModule,
-        NzMenuModule,
-        NzIconModule,
-        NzFormModule,
-        ReactiveFormsModule,
-        NzInputModule,
-        NzButtonModule,
-        NzCheckboxModule,
-        NzModalModule,
-        NzNotificationServiceModule,
-        AngularFireModule.initializeApp(firebaseConfig),
-        AngularFireAuthModule
-    ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    NzIconModule.forRoot(icons),
+    NzLayoutModule,
+    NzBreadCrumbModule,
+    NzMenuModule,
+    NzIconModule,
+    NzFormModule,
+    ReactiveFormsModule,
+    NzInputModule,
+    NzButtonModule,
+    NzCheckboxModule,
+    NzModalModule,
+    NzNotificationServiceModule,
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireAuthModule,
+    NzPageHeaderModule,
+    NzTagModule,
+    NzStatisticModule,
+    NzCollapseModule
+  ],
   providers: [{ provide: NZ_I18N, useValue: en_US }, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, AuthGuard, AdminGuard],
   bootstrap: [AppComponent]
 })
