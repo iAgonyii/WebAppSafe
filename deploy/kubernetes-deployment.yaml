@@ -146,6 +146,11 @@ spec:
     metadata:
       labels:
         app: runner-pod # Name of the pods
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "runner"
+        dapr.io/app-port: "50051"
+        dapr.io/app-protocol: "grpc"
     spec:
       containers:
         - name: runner-container # Name we want to give the container
