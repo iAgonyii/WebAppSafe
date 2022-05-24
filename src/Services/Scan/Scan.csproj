@@ -10,9 +10,10 @@
 
   <ItemGroup>
     <PackageReference Include="Dapr.AspNetCore" Version="1.7.0-rc01" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Cosmos" Version="7.0.0-preview.2.22153.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Cosmos" Version="7.0.0-preview.3.22175.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.17.0" />
   </ItemGroup>
 
 </Project>

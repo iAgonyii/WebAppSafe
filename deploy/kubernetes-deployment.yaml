@@ -87,6 +87,72 @@ spec:
           ports:
             - containerPort: 80 # Expose the port that the service/app runs on
           imagePullPolicy: Always
+          env:
+            - name: COSMOS_DB_MASTER_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cosmos-db-master-key # Kubernetes secret
+                  key: cosmos-db-master-key
+      imagePullSecrets: # Token secret for pulling private Docker image from GitHub
+        - name: dockerconfigjson-github-com
+        
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reportservice-deployment # Name of the deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reportservice-pod # The deployment will target pods with this name
+  template:
+    metadata:
+      labels:
+        app: reportservice-pod # Name of the pods
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "reportservice"
+        dapr.io/app-port: "80"
+    spec:
+      containers:
+        - name: reportservice-container # Name we want to give the container
+          image: ghcr.io/iagonyii/reportservice:latest # Remote Docker image
+          ports:
+            - containerPort: 80 # Expose the port that the service/app runs on
+          imagePullPolicy: Always
+          env:
+            - name: COSMOS_DB_MASTER_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cosmos-db-master-key # Kubernetes secret
+                  key: cosmos-db-master-key
+      imagePullSecrets: # Token secret for pulling private Docker image from GitHub
+        - name: dockerconfigjson-github-com
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: runner-deployment # Name of the deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: runner-pod # The deployment will target pods with this name
+  template:
+    metadata:
+      labels:
+        app: runner-pod # Name of the pods
+    spec:
+      containers:
+        - name: runner-container # Name we want to give the container
+          image: ghcr.io/iagonyii/runner:latest # Remote Docker image
+          ports:
+            - containerPort: 50051 # Expose the port that the service/app runs on
+          imagePullPolicy: Always
       imagePullSecrets: # Token secret for pulling private Docker image from GitHub
         - name: dockerconfigjson-github-com
 
@@ -134,5 +200,20 @@ spec:
   ports:
     - name: http-user
       port: 7002 # Port that we want to reach the service running on the pods on
+      targetPort: 80 # Port that the running service exposes within the container
+  type: ClusterIP
+  
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: reportservice-service # Name of the service
+spec:
+  selector:
+    app: reportservice-pod # Send traffic to pods with this label
+  ports:
+    - name: http-report
+      port: 7003 # Port that we want to reach the service running on the pods on
       targetPort: 80 # Port that the running service exposes within the container
   type: ClusterIP

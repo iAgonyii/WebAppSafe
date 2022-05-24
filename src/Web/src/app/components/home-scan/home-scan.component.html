@@ -1,0 +1,38 @@
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+  <nz-form-item>
+    <nz-form-control [nzSpan]="4" [nzOffset]="10" nzErrorTip="Please input a valid URL">
+      <nz-input-group nzPrefixIcon="link">
+        <input formControlName="url" nz-input placeholder="Enter URL..."/>
+      </nz-input-group>
+    </nz-form-control>
+    <button nz-button nzType="primary" [disabled]="!validateForm.valid" style="margin-left: 15px">
+      Start scan
+      <i nz-icon nzType="caret-right" nzTheme="outline"></i>     </button>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzSpan]="4" [nzOffset]="10">
+      <label nz-checkbox formControlName="hidden">
+        Hide from other users
+      </label>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzSpan]="4" [nzOffset]="10">
+      <label nz-checkbox formControlName="rescan">
+        Force rescan
+      </label>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+<br>
+<br>
+<h2>Recent public scan reports</h2>
+<p *ngFor="let report of recentReports">{{report.end_date | date: 'short' }} • {{report.url}} • <b>{{report.grade}}</b> • <a [routerLink]="['/report/' + report.id]">View report</a></p>
+
+<nz-modal nzMaskClosable="false" [nzFooter]="null" [(nzVisible)]="isVisible" nzTitle="Scan initiated" (nzOnCancel)="handleCancel()">
+  <ng-container *nzModalContent>
+    Scan initiated for <b>{{modalUrl}}</b><br>
+    You will be automatically redirected when the results are in. <br>
+    You can close this window.
+  </ng-container>
+</nz-modal>

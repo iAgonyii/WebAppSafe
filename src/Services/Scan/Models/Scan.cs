@@ -7,14 +7,13 @@ namespace Scan
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string id { get; set; }
+        public Guid id { get; set; }
         public DateTime date { get; set; }
+        [Url]
+        public string url { get; set; }
         public string? data { get; set; }
-
-        public Scan(string id, DateTime date, string? data) {
-            this.id = id;
-            this.date = date;
-            this.data = data;
-        }
+        public bool hidden { get; set; }
+        public bool rescan { get; set; }
+        public User? createdBy { get; set; }
     }
 }
